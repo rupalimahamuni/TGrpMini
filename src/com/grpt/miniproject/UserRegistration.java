@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 
 
-
 public class UserRegistration {
 	
 	PreparedStatement ps = null;
