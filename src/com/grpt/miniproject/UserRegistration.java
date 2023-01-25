@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Scanner;
 
+
+
 public class UserRegistration {
 	
 	PreparedStatement ps = null;
