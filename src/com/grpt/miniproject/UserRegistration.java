@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.util.Scanner;
 
 
-
 public class UserRegistration {
 	
 	PreparedStatement ps = null;
@@ -14,17 +13,18 @@ public class UserRegistration {
 	static String username,password;
 	
 	
-	public void userRegistration(String firstName, String lastName, String username, String password ) {
+	public void userRegistration(int sr_no,String firstName, String lastName, String username, String password ) {
 	
 		try {
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
-			ps = con.prepareStatement("INSERT INTO users (firstname, lastname, username, password) VALUES (?,?,?,?)");
+			ps = con.prepareStatement("INSERT INTO users (sr_no,firstname, lastname, username, password) VALUES (?,?,?,?,?)");
 			
-			ps.setString(1, firstName);
-			ps.setString(2, lastName);
-			ps.setString(3, username);
-			ps.setString(4, password);
+			ps.setInt(1, sr_no);
+			ps.setString(2, firstName);
+			ps.setString(3, lastName);
+			ps.setString(4, username);
+			ps.setString(5, password);
 			
 			int i = ps.executeUpdate();
 			System.out.println("Record updated...");
@@ -41,6 +41,9 @@ public class UserRegistration {
 		String str = sc.nextLine();
 		if("YES".equalsIgnoreCase(str)) {
 		
+		Scanner sc12 = new Scanner(System.in);
+		System.out.println("Enter Serial No ");
+		int i = sc12.nextInt();
 		Scanner sc1 = new Scanner(System.in);
 		System.out.println("Enter FirstName ");
 		String str1 = sc1.nextLine();
@@ -53,7 +56,7 @@ public class UserRegistration {
 		
 		System.out.println("Enter Password ");
 		String str4 = sc1.nextLine();
-		userRegistration(str1, str2, str3, str4);
+		userRegistration(i,str1, str2, str3, str4);
 	}else {
 		userLogin();
 	}
