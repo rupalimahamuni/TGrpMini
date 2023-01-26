@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+
 
 public class ProductDisplay {
 	PreparedStatement ps = null;
@@ -31,34 +31,11 @@ public class ProductDisplay {
 				System.out.println("__________");
 				
 			}
-			con.close();
-			ps.close();
-			rs.close();
+		
 			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-//		try {
-//			con.close();
-//			ps.close();
-//			rs.close();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-		
-		
-//		finally {
-//			try {
-//				con.close();
-//				ps.close();
-//				rs.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-			
-//		}
 	}
-
 }
