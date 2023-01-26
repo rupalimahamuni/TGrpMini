@@ -1,6 +1,7 @@
 package com.grpt.miniproject;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Scanner;
@@ -39,7 +40,8 @@ public class AdminData {
 				userList();
 			}
 			else if(num == 2) {
-				System.out.println("2");
+				ProductDisplay display = new ProductDisplay();
+				display.getProductDetails();
 			}
 			else if(num == 3) {
 				System.out.println("3");
@@ -58,14 +60,14 @@ try {
 			
 			ConnectionDetails deatails = new ConnectionDetails();
 			con = deatails.getConnectionDetails();
-			ps = con.prepareStatement("SELECT sr_no, firstname, lastname, username FROM users");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
+			ps = con.prepareStatement("SELECT firstname, lastname, username FROM userlist");
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				System.out.println("sr_no : "+rs.getInt(1));
-				System.out.println("firstname : "+rs.getString(2));
-				System.out.println("lastname : "+rs.getString(3));
-				System.out.println("username : "+rs.getString(4));
+				System.out.println("firstname : "+rs.getString(1));
+				System.out.println("lastname : "+rs.getString(2));
+				System.out.println("username : "+rs.getString(3));
 				System.out.println("__________");
 			}
 			

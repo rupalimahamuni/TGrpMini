@@ -1,34 +1,64 @@
 package com.grpt.miniproject;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ProductDisplay {
 	PreparedStatement ps = null;
 	Connection con = null;
+	ResultSet rs = null;
 	
 	public void getProductDetails() {
 		try {
 			
 			ConnectionDetails deatails = new ConnectionDetails();
 			con = deatails.getConnectionDetails();
-			ps = con.prepareStatement("SELECT * FROM products");
-			ResultSet rs = ps.executeQuery();
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
+			ps = con.prepareStatement("SELECT * FROM productlist");
+			
+			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				System.out.println("ProductId : "+rs.getInt(1));
 				System.out.println("Name : "+rs.getString(2));
 				System.out.println("Description : "+rs.getString(3));
 				System.out.println("Price : "+rs.getInt(4));
-				System.out.println("Quantity : "+rs.getInt(5));
+				System.out.println("Total Quantity : "+rs.getInt(5));
+				System.out.println("Quantity Remaining : "+rs.getInt(6));
 				System.out.println("__________");
+				
 			}
+			con.close();
+			ps.close();
+			rs.close();
 			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+//		try {
+//			con.close();
+//			ps.close();
+//			rs.close();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+		
+		
+//		finally {
+//			try {
+//				con.close();
+//				ps.close();
+//				rs.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+			
+//		}
 	}
 
 }

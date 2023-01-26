@@ -15,9 +15,9 @@ public class ProductTable {
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys","root","root");
-			ps = con.prepareStatement("CREATE schema shopnow;");
+			ps = con.prepareStatement("CREATE schema IF NOT EXISTS shopnow;");
 			ps.executeUpdate();
-			System.out.println("Done...");
+			createProductTable();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -29,22 +29,19 @@ public class ProductTable {
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
 
-			ps = con.prepareStatement("CREATE schema shopnow;");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys","root","root");
-
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
 			
 
 			ps = con.prepareStatement(
-							"CREATE TABLE userlist2"+
-							"(sr_no int primary key auto_increment,"+
-							"firstname varchar(255),"+
+							"CREATE TABLE IF NOT EXISTS userlist"+
+							"(firstname varchar(255),"+
 							"lastname varchar(255),"+
 							"username varchar(255),"+
 							"password varchar(255));");
 		    int i =	ps.executeUpdate();
-		
-			System.out.println("done");
+		    
+			UserRegistration userRegistration = new UserRegistration();
+			userRegistration.userSignUp();
 		}
 			catch (Exception e) {
 				e.printStackTrace();			
@@ -58,8 +55,8 @@ public class ProductTable {
 			con = details.getConnectionDetails();
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
 			ps = con.prepareStatement(
-							"CREATE TABLE productlist"+
-							"(product_id int  primary key auto_increment,"+
+							"CREATE TABLE IF NOT EXISTS productlist"+
+							"(product_id int primary key,"+
 							"name varchar(255),"+
 							"description varchar(255),"+
 							"price int,"+
@@ -67,7 +64,7 @@ public class ProductTable {
 							"quantity_remaining int);");
 		    int i =	ps.executeUpdate();
 		
-			System.out.println("done");
+			insertProductDetails();
 		}
 			catch (Exception e) {
 				e.printStackTrace();				
@@ -80,7 +77,7 @@ public class ProductTable {
 		con = details.getConnectionDetails();
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
 		ps = con.prepareStatement(
-						"INSERT INTO productlist (product_id,name,description,price,total_quantity,quantity_remaining) VALUES  "
+						"INSERT IGNORE INTO productlist (product_id,name,description,price,total_quantity,quantity_remaining) VALUES "
 						+ "(1,'Samsung Galaxy F13',	'RAM - 4GB, Camera - 50MP, Battery - 6000mAh, Processor - Exynos850',12000,10,10),"
 						+ "(2,'Mi Telivision','Mi 5A 108 cm (43 inch) Full HD LED Smart Android TV with Dolby Audio (2022 Model)',25000,10,10),"
 						+ "(3,'BoAt Stone Bluetooth Speaker','1200 14W, WaterProof, Total 15hrs playback',4000,10,10),"
@@ -92,27 +89,12 @@ public class ProductTable {
 						+ "(9,'Zebronics blueetooth EarHeadPhone','9hrs playback, call function, adjustable headband',600,10,10),"
 						+ "(10,'Voltas AC','1.5 Ton 5 Star Split Inverter White, Copper Condenser',38000,10,10);");
 	    int i =	ps.executeUpdate();
-	
-		System.out.println("done");
+
+		createUserTable();
 	 }
 		catch (Exception e) {
 			e.printStackTrace();				
      }		
-	}
-	
-	
-	public static void main(String[] args) {
-		ProductTable productTable = new ProductTable();
-
-//	productTable.createProductTable();
-		productTable.createUserTable();
-//		productTable.insertProductDetails();
-
-		productTable.createUserTable();
-		productTable.createProductTable();
-		productTable.insertProductDetails();
-//		productTable.createSchema();
-
 	}
 	}
 

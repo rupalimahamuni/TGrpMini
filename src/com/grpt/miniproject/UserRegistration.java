@@ -1,6 +1,7 @@
 package com.grpt.miniproject;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Scanner;
@@ -13,18 +14,18 @@ public class UserRegistration {
 	static String username,password;
 	
 	
-	public void userRegistration(int sr_no,String firstName, String lastName, String username, String password ) {
+	public void userRegistration(String firstName, String lastName, String username, String password ) {
 	
 		try {
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
-			ps = con.prepareStatement("INSERT INTO userlist (sr_no,firstname, lastname, username, password) VALUES (?,?,?,?,?)");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
+			ps = con.prepareStatement("INSERT INTO userlist (firstname, lastname, username, password) VALUES (?,?,?,?)");
 			
-			ps.setInt(1, sr_no);
-			ps.setString(2, firstName);
-			ps.setString(3, lastName);
-			ps.setString(4, username);
-			ps.setString(5, password);
+			ps.setString(1, firstName);
+			ps.setString(2, lastName);
+			ps.setString(3, username);
+			ps.setString(4, password);
 			
 			int i = ps.executeUpdate();
 			System.out.println("Record updated...");
@@ -37,13 +38,17 @@ public class UserRegistration {
 	public void userSignUp() {
 		
 		Scanner sc = new Scanner(System.in); 
+		System.out.println("Are you Admin or Customer?");
+		String string = sc.nextLine();
+		if("Admin".equalsIgnoreCase(string)) {
+			AdminData adminData = new AdminData();
+			adminData.verifyAdmin();
+		}
+		else if("Customer".equalsIgnoreCase(string)){
 		System.out.println("Are you New Customer ? Please write YES or NO ");
 		String str = sc.nextLine();
 		if("YES".equalsIgnoreCase(str)) {
 		
-		Scanner sc12 = new Scanner(System.in);
-		System.out.println("Enter Serial No ");
-		int i = sc12.nextInt();
 		Scanner sc1 = new Scanner(System.in);
 		System.out.println("Enter FirstName ");
 		String str1 = sc1.nextLine();
@@ -56,10 +61,15 @@ public class UserRegistration {
 		
 		System.out.println("Enter Password ");
 		String str4 = sc1.nextLine();
-		userRegistration(i,str1, str2, str3, str4);
+		userRegistration(str1, str2, str3, str4);
 	}else {
 		userLogin();
 	}
+		}
+		else {
+			System.out.println("Invalid input");
+		}
+		
 	}
 	
 	
@@ -78,6 +88,7 @@ Scanner sc = new Scanner(System.in);
 			
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
 			ps = con.prepareStatement("Select password from userlist where username  = ?");
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
