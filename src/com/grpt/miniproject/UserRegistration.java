@@ -18,7 +18,7 @@ public class UserRegistration {
 		try {
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
-			ps = con.prepareStatement("INSERT INTO users (sr_no,firstname, lastname, username, password) VALUES (?,?,?,?,?)");
+			ps = con.prepareStatement("INSERT INTO userlist (sr_no,firstname, lastname, username, password) VALUES (?,?,?,?,?)");
 			
 			ps.setInt(1, sr_no);
 			ps.setString(2, firstName);
@@ -78,7 +78,7 @@ Scanner sc = new Scanner(System.in);
 			
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
-			ps = con.prepareStatement("Select password from users where username  = ?");
+			ps = con.prepareStatement("Select password from userlist where username  = ?");
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
 			
