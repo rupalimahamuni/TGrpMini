@@ -14,9 +14,9 @@ public class ProductTable {
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
 			ps = con.prepareStatement("CREATE schema shopnow;");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys","root","root");
 			ps = con.prepareStatement(
-							"CREATE TABLE userlist"+
+							"CREATE TABLE userlist2"+
 							"(sr_no int primary key auto_increment,"+
 							"firstname varchar(255),"+
 							"lastname varchar(255),"+
@@ -30,6 +30,7 @@ public class ProductTable {
 				e.printStackTrace();			
 	}
    }
+	
 	
 	public void createProductTable() {
         try {
@@ -82,9 +83,9 @@ public class ProductTable {
 	
 	public static void main(String[] args) {
 		ProductTable productTable = new ProductTable();
-		//productTable.createProductTable();
-		//productTable.createUserTable();
-		productTable.insertProductDetails();
+//	productTable.createProductTable();
+		productTable.createUserTable();
+//		productTable.insertProductDetails();
 	}
 	}
 

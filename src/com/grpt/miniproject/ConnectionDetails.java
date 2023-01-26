@@ -11,7 +11,7 @@ public class ConnectionDetails {
 try {
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys","root","root");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys","root","Root");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
