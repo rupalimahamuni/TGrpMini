@@ -3,18 +3,38 @@ package com.grpt.miniproject;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class ProductTable {
 	PreparedStatement ps = null;
 	Connection con = null;
 	
+	public void createSchema() {
+		
+		try {
+			ConnectionDetails details = new ConnectionDetails();
+			con = details.getConnectionDetails();
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys","root","root");
+			ps = con.prepareStatement("CREATE schema shopnow;");
+			ps.executeUpdate();
+			System.out.println("Done...");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	public void createUserTable() {
 
 		try {
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
+
 			ps = con.prepareStatement("CREATE schema shopnow;");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys","root","root");
+
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
+			
+
 			ps = con.prepareStatement(
 							"CREATE TABLE userlist2"+
 							"(sr_no int primary key auto_increment,"+
@@ -83,9 +103,16 @@ public class ProductTable {
 	
 	public static void main(String[] args) {
 		ProductTable productTable = new ProductTable();
+
 //	productTable.createProductTable();
 		productTable.createUserTable();
 //		productTable.insertProductDetails();
+
+		productTable.createUserTable();
+		productTable.createProductTable();
+		productTable.insertProductDetails();
+//		productTable.createSchema();
+
 	}
 	}
 
