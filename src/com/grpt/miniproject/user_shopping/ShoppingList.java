@@ -24,12 +24,12 @@ public class ShoppingList extends ProductDisplay {
 	
 	ConnectionDetails c = new ConnectionDetails();
 	Cart cs = new Cart();
+	
 	@Override
 	public void getProductDetails() throws ClassNotFoundException, SQLException {
 		
 		    con = c.callToShopnow();
 			ps = con.prepareStatement("SELECT product_id,name,description,price,quantity_remaining FROM productlist ");
-			
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
@@ -46,20 +46,9 @@ public class ShoppingList extends ProductDisplay {
 	}
 	
 	
-	public void chooseProduct() throws ClassNotFoundException, SQLException {
-		
-			con = c.callToShopnow();
-			ps = con.prepareStatement("SELECT product_id,name,price FROM productlist WHERE product_id =?; ");
-			ps.setInt(1,product_id );
-			rs = ps.executeQuery();
-			while(rs.next()) {
-			
-			}
-	}
-	
 	public void selectProduct() throws ClassNotFoundException, SQLException {
 		Scanner sc = new Scanner(System.in);
-		Cart c = new Cart();
+		
 		do {
 		System.out.println("Please Enter Product Id of product which you want to buy...");
 		int i = sc.nextInt();
@@ -69,35 +58,35 @@ public class ShoppingList extends ProductDisplay {
 		
 		switch (product_id) {
 		case 1:
-			chooseProduct();
+			cs.chooseProduct();
 		    break;
 			
 		case 2:
-			chooseProduct();
+			cs.chooseProduct();
 			break;
 		case 3:
-			chooseProduct();
+			cs.chooseProduct();
 			break;
 		case 4:
-			chooseProduct();
+			cs.chooseProduct();
 			break;
 		case 5:
-			chooseProduct();
+			cs.chooseProduct();
 			break;
 		case 6:
-			chooseProduct();
+			cs.chooseProduct();
 			break;
 		case 7:
-			chooseProduct();
+			cs.chooseProduct();
 			break;
 		case 8:
-			chooseProduct();
+			cs.chooseProduct();
 			break;
 		case 9:
-			chooseProduct();
+			cs.chooseProduct();
 			break;
 		case 10:
-			chooseProduct();
+			cs.chooseProduct();
 			break;
 		default:
 			System.out.println("Invalid Input");
