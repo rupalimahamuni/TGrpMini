@@ -1,9 +1,9 @@
 package com.grpt.miniproject;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AdminData {
@@ -12,7 +12,7 @@ public class AdminData {
 	Connection con = null;
 	ConnectionDetails c = new ConnectionDetails();
 
-	public void verifyAdmin() {
+	public void verifyAdmin() throws ClassNotFoundException, SQLException {
 		
 		String getid;
 		String getpass;
@@ -55,9 +55,9 @@ public class AdminData {
 		else {
 			System.out.println("Invalid");
 		}
-	}
-	public void userList() {
-try {
+}
+	public void userList() throws SQLException, ClassNotFoundException {
+
 			con =c.callToShopnow();
 			ps = con.prepareStatement("SELECT firstname, lastname, username FROM userlist");
 			ResultSet rs = ps.executeQuery();
@@ -68,10 +68,5 @@ try {
 				System.out.println("username : "+rs.getString(3));
 				System.out.println("__________");
 			}
-			
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

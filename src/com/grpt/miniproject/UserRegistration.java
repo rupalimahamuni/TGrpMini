@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
@@ -15,9 +16,8 @@ public class UserRegistration {
 	ConnectionDetails c = new ConnectionDetails();
 	
 	
-	public void userRegistration(String firstName, String lastName, String username, String password ) {
+	public void userRegistration(String firstName, String lastName, String username, String password ) throws ClassNotFoundException, SQLException {
 	
-		try {
 			con = c.callToShopnow();
 			ps = con.prepareStatement("INSERT INTO userlist (firstname, lastname, username, password) VALUES (?,?,?,?)");
 			
@@ -28,13 +28,9 @@ public class UserRegistration {
 			
 			int i = ps.executeUpdate();
 			System.out.println("Record updated...");
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
-	public void userSignUp() {
+	public void userSignUp() throws ClassNotFoundException, SQLException {
 		
 		Scanner sc = new Scanner(System.in); 
 		System.out.println("Are you Admin or Customer?");
@@ -71,7 +67,7 @@ public class UserRegistration {
 		
 	}
 	
-	public void userLogin() {
+	public void userLogin() throws ClassNotFoundException, SQLException {
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("Enter Username ");
@@ -80,25 +76,20 @@ public class UserRegistration {
 		System.out.println("Enter Password ");
 		password = sc.nextLine();
 		
-		try {
-			con = c.callToShopnow();
-			ps = con.prepareStatement("Select password from userlist where username  = ?");
-			ps.setString(1, username);
-			ResultSet rs = ps.executeQuery();
+		con = c.callToShopnow();
+		ps = con.prepareStatement("Select password from userlist where username  = ?");
+		ps.setString(1, username);
+		ResultSet rs = ps.executeQuery();
 			
-			while(rs.next()) {
-				String dbPassword = rs.getString("password");	
-				if((password.equals(dbPassword))) {
+		while(rs.next()) {
+			String dbPassword = rs.getString("password");	
+			if((password.equals(dbPassword))) {
 			
 				System.out.println("checked");
 			}
 			else {
 				System.out.println("invalid");
 			}
-			}
-		}
-			catch (Exception e) {
-				e.printStackTrace();
 			}
 	    }
 }

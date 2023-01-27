@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,8 +25,8 @@ public class ShoppingList extends ProductDisplay {
 	ConnectionDetails c = new ConnectionDetails();
 	Cart cs = new Cart();
 	@Override
-	public void getProductDetails() {
-		try {
+	public void getProductDetails() throws ClassNotFoundException, SQLException {
+		
 		    con = c.callToShopnow();
 			ps = con.prepareStatement("SELECT product_id,name,description,price,quantity_remaining FROM productlist ");
 			
@@ -41,16 +42,12 @@ public class ShoppingList extends ProductDisplay {
 				
 			}
 						
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
 		selectProduct();
 	}
 	
 	
-	public void chooseProduct() {
-		try {
+	public void chooseProduct() throws ClassNotFoundException, SQLException {
+		
 			con = c.callToShopnow();
 			ps = con.prepareStatement("SELECT product_id,name,price FROM productlist WHERE product_id =?; ");
 			ps.setInt(1,product_id );
@@ -58,14 +55,9 @@ public class ShoppingList extends ProductDisplay {
 			while(rs.next()) {
 			
 			}
-
-			
-		    } catch (Exception e) {
-			   e.printStackTrace();
-		}	
 	}
 	
-	public void selectProduct() {
+	public void selectProduct() throws ClassNotFoundException, SQLException {
 		Scanner sc = new Scanner(System.in);
 		Cart c = new Cart();
 		do {
@@ -75,8 +67,6 @@ public class ShoppingList extends ProductDisplay {
 		quantity = sc.nextInt();
 		product_id = i;
 		
-		
-		try {
 		switch (product_id) {
 		case 1:
 			chooseProduct();
@@ -112,13 +102,7 @@ public class ShoppingList extends ProductDisplay {
 		default:
 			System.out.println("Invalid Input");
 		}
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			
-		}
-
-		
+				
 		System.out.println("Do you want to add another item to cart ?");
 		System.out.println("Please enter YES or No");
 		Scanner sc1 = new Scanner(System.in);

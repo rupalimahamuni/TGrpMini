@@ -10,21 +10,16 @@ public class ConnectionDetails {
 	PreparedStatement ps = null;
 	Connection con = null;
 	
-	public Connection getConnectionDetails() {
-    try {
-			
+	public Connection getConnectionDetails() throws ClassNotFoundException, SQLException {
+    	
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys","root","root");
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	
 		return con;
 	}
 	
-public void createSchema() {
+	public void createSchema() throws ClassNotFoundException, SQLException {
 		
-		try {
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys","root","root");
@@ -32,22 +27,16 @@ public void createSchema() {
 			ps.executeUpdate();
 			ProductTable pt = new ProductTable();
 			pt.createProductTable();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	
 	     }	
 
-public Connection callToShopnow() {
+	public Connection callToShopnow() throws ClassNotFoundException, SQLException {
 	
-	try {
+	
 		ConnectionDetails details = new ConnectionDetails();
 		con = details.getConnectionDetails();
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
-	} catch (SQLException e) {
-		e.printStackTrace();
-	}
-	return con;
+		return con;
     }
-	}
+}
 	

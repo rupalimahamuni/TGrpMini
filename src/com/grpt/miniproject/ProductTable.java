@@ -10,16 +10,7 @@ public class ProductTable {
 	Connection con = null;
 	ConnectionDetails c = new ConnectionDetails();
 
-	public void createUserTable() {
-
-		try {
-
-			ConnectionDetails details = new ConnectionDetails();
-			con = details.getConnectionDetails();
-
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","Root");
-			
-
+	public void createUserTable() throws SQLException, ClassNotFoundException {
 
 			con = c.callToShopnow();
 
@@ -33,19 +24,10 @@ public class ProductTable {
 		    
 			UserRegistration userRegistration = new UserRegistration();
 			userRegistration.userSignUp();
-		}
-			catch (Exception e) {
-				e.printStackTrace();			
-	}
    }
 	
 	
-	public void createProductTable() {
-        try {
-
-			ConnectionDetails details = new ConnectionDetails();
-			con = details.getConnectionDetails();
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","Root");
+	public void createProductTable() throws ClassNotFoundException, SQLException {
 
 			con =c.callToShopnow();
 
@@ -60,18 +42,9 @@ public class ProductTable {
 		    int i =	ps.executeUpdate();
 		
 			insertProductDetails();
-		}
-			catch (Exception e) {
-				e.printStackTrace();				
-	    }	
 	}
 	
-	public void insertProductDetails() {
-		try {
-
-		ConnectionDetails details = new ConnectionDetails();
-		con = details.getConnectionDetails();
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","Root");
+	public void insertProductDetails() throws ClassNotFoundException, SQLException {
 
 		con =c.callToShopnow();
 
@@ -89,11 +62,7 @@ public class ProductTable {
 						+ "(10,'Voltas AC','1.5 Ton 5 Star Split Inverter White, Copper Condenser',38000,10,10);");
 	    int i =	ps.executeUpdate();
 
-		createUserTable();
-	 }
-		catch (Exception e) {
-			e.printStackTrace();				
-     }		
+		createUserTable();		
 	}
 	}
 

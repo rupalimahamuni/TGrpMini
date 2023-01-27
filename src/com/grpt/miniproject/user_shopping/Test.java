@@ -1,10 +1,16 @@
 package com.grpt.miniproject.user_shopping;
 
+import java.sql.SQLException;
+
 public class Test {
 
 	public static void main(String[] args) {
 		ShoppingList sl = new ShoppingList();
-		sl.getProductDetails();
+		try {
+			sl.getProductDetails();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

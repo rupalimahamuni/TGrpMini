@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class ProductDisplay {
@@ -11,12 +12,10 @@ public class ProductDisplay {
 	Connection con = null;
 	ResultSet rs = null;
 	
-	public void getProductDetails() {
-		try {
+	public void getProductDetails() throws ClassNotFoundException, SQLException {
 			
-			ConnectionDetails deatails = new ConnectionDetails();
-			con = deatails.getConnectionDetails();
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
+			ConnectionDetails details = new ConnectionDetails();
+			con = details.callToShopnow();
 			ps = con.prepareStatement("SELECT * FROM productlist");
 			
 			rs = ps.executeQuery();
@@ -28,14 +27,7 @@ public class ProductDisplay {
 				System.out.println("Price : "+rs.getInt(4));
 				System.out.println("Total Quantity : "+rs.getInt(5));
 				System.out.println("Quantity Remaining : "+rs.getInt(6));
-				System.out.println("__________");
-				
+				System.out.println("__________");	
 			}
-		
-			
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

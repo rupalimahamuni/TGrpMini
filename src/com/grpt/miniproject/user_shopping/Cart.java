@@ -2,6 +2,7 @@ package com.grpt.miniproject.user_shopping;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import com.grpt.miniproject.ConnectionDetails;
 
@@ -12,8 +13,7 @@ public class Cart {
 	ConnectionDetails c = new ConnectionDetails();
 	
 	
-	public void createCartTable() {
-		try {
+	public void createCartTable() throws ClassNotFoundException, SQLException {
 			con = c.callToShopnow();
 			ps = con.prepareStatement(
 							"CREATE TABLE IF NOT EXISTS cart_table"+
@@ -22,24 +22,14 @@ public class Cart {
 							"price int,"+
 							"selected_quantity int);");
 		    int i =	ps.executeUpdate(); 
-		  
-		}
-			catch (Exception e) {
-				e.printStackTrace();			
-	    }
 	}
 	
-		public void inserCartTable() {
-			try {
+		public void inserCartTable() throws ClassNotFoundException, SQLException {
 	
 				con = c.callToShopnow();
 				ps = con.prepareStatement("INSERT INTO cart_table() VALUES (?)");
 			  
 				int i =	ps.executeUpdate();   
-			}
-				catch (Exception e) {
-					e.printStackTrace();			
-		}	
 		}
 		
 	}
