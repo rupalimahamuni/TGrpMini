@@ -10,6 +10,7 @@ public class AdminData {
 	
 	PreparedStatement ps = null;
 	Connection con = null;
+	ConnectionDetails c = new ConnectionDetails();
 
 	public void verifyAdmin() {
 		
@@ -57,10 +58,7 @@ public class AdminData {
 	}
 	public void userList() {
 try {
-			
-			ConnectionDetails deatails = new ConnectionDetails();
-			con = deatails.getConnectionDetails();
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
+			con =c.callToShopnow();
 			ps = con.prepareStatement("SELECT firstname, lastname, username FROM userlist");
 			ResultSet rs = ps.executeQuery();
 			
@@ -76,10 +74,4 @@ try {
 			e.printStackTrace();
 		}
 	}
-	
-    public static void main(String[] args) {
-    	
-    	AdminData ad = new AdminData();
-    	ad.verifyAdmin();
-    }
 }

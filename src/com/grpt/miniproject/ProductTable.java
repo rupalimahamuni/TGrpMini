@@ -8,29 +8,20 @@ import java.sql.SQLException;
 public class ProductTable {
 	PreparedStatement ps = null;
 	Connection con = null;
-	
-	public void createSchema() {
-		
-		try {
-			ConnectionDetails details = new ConnectionDetails();
-			con = details.getConnectionDetails();
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sys","root","root");
-			ps = con.prepareStatement("CREATE schema IF NOT EXISTS shopnow;");
-			ps.executeUpdate();
-			createProductTable();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-	}
+	ConnectionDetails c = new ConnectionDetails();
+
 	public void createUserTable() {
 
 		try {
+
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
 
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","Root");
 			
+
+
+			con = c.callToShopnow();
 
 			ps = con.prepareStatement(
 							"CREATE TABLE IF NOT EXISTS userlist"+
@@ -51,9 +42,13 @@ public class ProductTable {
 	
 	public void createProductTable() {
         try {
+
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","Root");
+
+			con =c.callToShopnow();
+
 			ps = con.prepareStatement(
 							"CREATE TABLE IF NOT EXISTS productlist"+
 							"(product_id int primary key,"+
@@ -73,9 +68,13 @@ public class ProductTable {
 	
 	public void insertProductDetails() {
 		try {
+
 		ConnectionDetails details = new ConnectionDetails();
 		con = details.getConnectionDetails();
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","Root");
+
+		con =c.callToShopnow();
+
 		ps = con.prepareStatement(
 						"INSERT IGNORE INTO productlist (product_id,name,description,price,total_quantity,quantity_remaining) VALUES "
 						+ "(1,'Samsung Galaxy F13',	'RAM - 4GB, Camera - 50MP, Battery - 6000mAh, Processor - Exynos850',12000,10,10),"
