@@ -8,12 +8,16 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 
+
+
 public class UserRegistration {
 	
 	PreparedStatement ps = null;
 	Connection con = null;
 	static String username,password;
 	ConnectionDetails c = new ConnectionDetails();
+	ShoppingList sl = new ShoppingList();
+	
 	
 	
 	public void userRegistration(String firstName, String lastName, String username, String password ) throws ClassNotFoundException, SQLException {
@@ -28,6 +32,8 @@ public class UserRegistration {
 			
 			int i = ps.executeUpdate();
 			System.out.println("Record updated...");
+			sl.getProductDetails();
+			
 	}
 
 	public void userSignUp() throws ClassNotFoundException, SQLException {
@@ -56,6 +62,7 @@ public class UserRegistration {
 		
 		System.out.println("Enter Password ");
 		String str4 = sc1.nextLine();
+		userLogin();
 		userRegistration(str1, str2, str3, str4);
 	}else {
 		userLogin();
@@ -80,16 +87,29 @@ public class UserRegistration {
 		ps = con.prepareStatement("Select password from userlist where username  = ?");
 		ps.setString(1, username);
 		ResultSet rs = ps.executeQuery();
+		System.out.println(username);
 			
 		while(rs.next()) {
 			String dbPassword = rs.getString("password");	
 			if((password.equals(dbPassword))) {
 			
 				System.out.println("checked");
+				sl.getProductDetails();
 			}
 			else {
 				System.out.println("invalid");
+				userLogin();
 			}
 			}
 	    }
+	public static void main(String[] args) {
+		UserRegistration ur = new UserRegistration();
+		try {
+			ur.userLogin();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

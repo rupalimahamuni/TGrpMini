@@ -6,18 +6,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+
+
 public class AdminData {
 	
 	PreparedStatement ps = null;
 	Connection con = null;
 	ConnectionDetails c = new ConnectionDetails();
-
+	ProductTable pt = new ProductTable();
+	
 	public void verifyAdmin() throws ClassNotFoundException, SQLException {
 		
 		String getid;
 		String getpass;
-		
-		
+				
 		Scanner s = new Scanner(System.in);
 		System.out.println("Enter Admin Id: ");
 		String id = s.nextLine();
@@ -45,7 +47,8 @@ public class AdminData {
 				display.getProductDetails();
 			}
 			else if(num == 3) {
-				System.out.println("3");
+				pt.purchaseHistory();
+				
 			}
 			else {
 				System.out.println("Invalid Input");
@@ -69,4 +72,5 @@ public class AdminData {
 				System.out.println("__________");
 			}
 	}
+	
 }
