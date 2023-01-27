@@ -17,14 +17,16 @@ public class ShoppingList extends ProductDisplay {
 	Connection con = null;
 	ResultSet rs = null;
 	static String str;
-	List list =  new ArrayList();
+	static int product_id;
+	static int quantity;
+	
+	
+	ConnectionDetails c = new ConnectionDetails();
+	Cart cs = new Cart();
 	@Override
 	public void getProductDetails() {
 		try {
-			
-			ConnectionDetails deatails = new ConnectionDetails();
-			con = deatails.getConnectionDetails();
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
+		    con = c.callToShopnow();
 			ps = con.prepareStatement("SELECT product_id,name,description,price,quantity_remaining FROM productlist ");
 			
 			rs = ps.executeQuery();
@@ -46,121 +48,66 @@ public class ShoppingList extends ProductDisplay {
 		selectProduct();
 	}
 	
+	
+	public void chooseProduct() {
+		try {
+			con = c.callToShopnow();
+			ps = con.prepareStatement("SELECT product_id,name,price FROM productlist WHERE product_id =?; ");
+			ps.setInt(1,product_id );
+			rs = ps.executeQuery();
+			while(rs.next()) {
+			
+			}
+
+			
+		    } catch (Exception e) {
+			   e.printStackTrace();
+		}	
+	}
+	
 	public void selectProduct() {
 		Scanner sc = new Scanner(System.in);
 		Cart c = new Cart();
 		do {
 		System.out.println("Please Enter Product Id of product which you want to buy...");
 		int i = sc.nextInt();
+		System.out.println("How many quantity do you want to buy?");
+		quantity = sc.nextInt();
+		product_id = i;
 		
 		
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
-		switch (i) {
-		
+		switch (product_id) {
 		case 1:
-			
-			ps = con.prepareStatement("SELECT product_id,name,price FROM productlist WHERE product_id =1; ");
-			rs = ps.executeQuery();
-			while(rs.next()) {
-			list.add(rs.getInt(1));
-			list.add(rs.getString(2));
-			list.add(rs.getString(3));
-			}
-			System.out.println(list +"\n");
-	
-
-			break;
+			chooseProduct();
+		    break;
 			
 		case 2:
-			ps = con.prepareStatement("SELECT product_id,name,price FROM productlist WHERE product_id =2; ");
-			rs = ps.executeQuery();
-			while(rs.next()) {
-			list.add(rs.getInt(1));
-			list.add(rs.getString(2));
-			list.add(rs.getString(3));
-			}
-			System.out.println(list+"\n");
+			chooseProduct();
 			break;
 		case 3:
-			ps = con.prepareStatement("SELECT product_id,name,price FROM productlist WHERE product_id =3; ");
-			rs = ps.executeQuery();
-			while(rs.next()) {
-			list.add(rs.getInt(1));
-			list.add(rs.getString(2));
-			list.add(rs.getString(3));
-			}
-			System.out.println(list);
+			chooseProduct();
 			break;
 		case 4:
-			ps = con.prepareStatement("SELECT product_id,name,price FROM productlist WHERE product_id =4; ");
-			rs = ps.executeQuery();
-			while(rs.next()) {
-			list.add(rs.getInt(1));
-			list.add(rs.getString(2));
-			list.add(rs.getString(3));
-			}
-			System.out.println(list);
+			chooseProduct();
 			break;
 		case 5:
-			ps = con.prepareStatement("SELECT product_id,name,price FROM productlist WHERE product_id =5; ");
-			rs = ps.executeQuery();
-			while(rs.next()) {
-			list.add(rs.getInt(1));
-			list.add(rs.getString(2));
-			list.add(rs.getString(3));
-			}
-			System.out.println(list);
+			chooseProduct();
 			break;
 		case 6:
-			ps = con.prepareStatement("SELECT product_id,name,price FROM productlist WHERE product_id =6; ");
-			rs = ps.executeQuery();
-			while(rs.next()) {
-			list.add(rs.getInt(1));
-			list.add(rs.getString(2));
-			list.add(rs.getString(3));
-			}
-			System.out.println(list);
+			chooseProduct();
 			break;
 		case 7:
-			ps = con.prepareStatement("SELECT product_id,name,price FROM productlist WHERE product_id =7; ");
-			rs = ps.executeQuery();
-			while(rs.next()) {
-			list.add(rs.getInt(1));
-			list.add(rs.getString(2));
-			list.add(rs.getString(3));
-			}
-			System.out.println(list);
+			chooseProduct();
 			break;
 		case 8:
-			ps = con.prepareStatement("SELECT product_id,name,price FROM productlist WHERE product_id =8; ");
-			rs = ps.executeQuery();
-			while(rs.next()) {
-			list.add(rs.getInt(1));
-			list.add(rs.getString(2));
-			list.add(rs.getString(3));
-			}
-			System.out.println(list);
+			chooseProduct();
 			break;
 		case 9:
-			ps = con.prepareStatement("SELECT product_id,name,price FROM productlist WHERE product_id =9; ");
-			rs = ps.executeQuery();
-			while(rs.next()) {
-			list.add(rs.getInt(1));
-			list.add(rs.getString(2));
-			list.add(rs.getString(3));
-			}
-			System.out.println(list);
+			chooseProduct();
 			break;
 		case 10:
-			ps = con.prepareStatement("SELECT product_id,name,price FROM productlist WHERE product_id =10; ");
-			rs = ps.executeQuery();
-			while(rs.next()) {
-			list.add(rs.getInt(1));
-			list.add(rs.getString(2));
-			list.add(rs.getString(3));
-			}
-			System.out.println(list);
+			chooseProduct();
 			break;
 		default:
 			System.out.println("Invalid Input");
@@ -170,8 +117,8 @@ public class ShoppingList extends ProductDisplay {
 			e.printStackTrace();
 			
 		}
-		Cart c1 = new Cart();
-		c1.addToCart();
+
+		
 		System.out.println("Do you want to add another item to cart ?");
 		System.out.println("Please enter YES or No");
 		Scanner sc1 = new Scanner(System.in);

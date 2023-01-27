@@ -12,14 +12,13 @@ public class UserRegistration {
 	PreparedStatement ps = null;
 	Connection con = null;
 	static String username,password;
+	ConnectionDetails c = new ConnectionDetails();
 	
 	
 	public void userRegistration(String firstName, String lastName, String username, String password ) {
 	
 		try {
-			ConnectionDetails details = new ConnectionDetails();
-			con = details.getConnectionDetails();
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
+			con = c.callToShopnow();
 			ps = con.prepareStatement("INSERT INTO userlist (firstname, lastname, username, password) VALUES (?,?,?,?)");
 			
 			ps.setString(1, firstName);
@@ -72,11 +71,8 @@ public class UserRegistration {
 		
 	}
 	
-	
-	
 	public void userLogin() {
-		
-Scanner sc = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("Enter Username ");
 		username = sc.nextLine();
@@ -85,10 +81,7 @@ Scanner sc = new Scanner(System.in);
 		password = sc.nextLine();
 		
 		try {
-			
-			ConnectionDetails details = new ConnectionDetails();
-			con = details.getConnectionDetails();
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
+			con = c.callToShopnow();
 			ps = con.prepareStatement("Select password from userlist where username  = ?");
 			ps.setString(1, username);
 			ResultSet rs = ps.executeQuery();
@@ -107,26 +100,5 @@ Scanner sc = new Scanner(System.in);
 			catch (Exception e) {
 				e.printStackTrace();
 			}
-	}
-	
-
-	
-	public void adminLogin() {
-	
-		
-	}
-
-	public static void main(String[] args) {
-		
-		UserRegistration userRegistration = new UserRegistration();
-		userRegistration.userSignUp();
-	}
-
-	
-	public void signUp() {
-		
-		
-	}
-
-
+	    }
 }
