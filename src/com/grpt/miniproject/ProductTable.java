@@ -1,11 +1,9 @@
 package com.grpt.miniproject;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 
 public class ProductTable {
 	PreparedStatement ps = null;
@@ -13,54 +11,42 @@ public class ProductTable {
 	ResultSet rs = null;
 	String s;
 	ConnectionDetails c = new ConnectionDetails();
-	UserRegistration ur = new UserRegistration();
+	
 
 //	Created user table
 	public void createUserTable() throws SQLException, ClassNotFoundException {
 
-			con = c.callToShopnow();
+		con = c.callToShopnow();
 
-			ps = con.prepareStatement(
-							"CREATE TABLE IF NOT EXISTS userlist"+
-							"(sr_no int auto_increment,"+
-							"firstname varchar(255),"+
-							"lastname varchar(255),"+
-							"username varchar(255),"+
-							"password varchar(255),"+
-					        "PRIMARY KEY(sr_no));");
-		    int i =	ps.executeUpdate();
-		    
-			UserRegistration userRegistration = new UserRegistration();
-			userRegistration.userSignUp();
-   }
-	
+		ps = con.prepareStatement("CREATE TABLE IF NOT EXISTS userlist" + "(sr_no int auto_increment,"
+				+ "firstname varchar(255)," + "lastname varchar(255)," + "username varchar(255),"
+				+ "password varchar(255)," + "PRIMARY KEY(sr_no));");
+		ps.executeUpdate();
+
+		UserRegistration userRegistration = new UserRegistration();
+		userRegistration.userSignUp();
+	}
+
 //	Created Product table
 	public void createProductTable() throws ClassNotFoundException, SQLException {
 
-			con =c.callToShopnow();
+		con = c.callToShopnow();
 
-			ps = con.prepareStatement(
-							"CREATE TABLE IF NOT EXISTS productlist"+
-							"(sr_no int  auto_increment,"+
-						    "product_id int,"+
-							"product_name varchar(255),"+
-							"description varchar(255),"+
-							"price int,"+
-							"total_quantity int,"+
-							"quantity_remaining int,"+
-		                    "PRIMARY KEY(sr_no));");
-		    int i =	ps.executeUpdate();
-		
-			insertProductDetails();
+		ps = con.prepareStatement("CREATE TABLE IF NOT EXISTS productlist" + "(sr_no int  auto_increment,"
+				+ "product_id int," + "product_name varchar(255)," + "description varchar(255)," + "price int,"
+				+ "total_quantity int," + "quantity_remaining int," + "PRIMARY KEY(sr_no));");
+		ps.executeUpdate();
+
+		insertProductDetails();
 	}
-	
+
 //	Product data inserted into ProductList table by default
 	public void insertProductDetails() throws ClassNotFoundException, SQLException {
 
-		con =c.callToShopnow();
+		con = c.callToShopnow();
 
 		ps = con.prepareStatement(
-						"INSERT IGNORE INTO productlist (sr_no,product_id,product_name,description,price,total_quantity,quantity_remaining) VALUES "
+				"INSERT IGNORE INTO productlist (sr_no,product_id,product_name,description,price,total_quantity,quantity_remaining) VALUES "
 						+ "(1,1,'Samsung Galaxy F13',	'RAM - 4GB, Camera - 50MP, Battery - 6000mAh, Processor - Exynos850',12000,10,10),"
 						+ "(2,2,'Mi Telivision','Mi 5A 108 cm (43 inch) Full HD LED Smart Android TV with Dolby Audio (2022 Model)',25000,10,10),"
 						+ "(3,3,'BoAt Stone Bluetooth Speaker','1200 14W, WaterProof, Total 15hrs playback',4000,10,10),"
@@ -71,58 +57,34 @@ public class ProductTable {
 						+ "(8,8,'Mivi DuoPods M30 earbuds','42 hours of playtime, Deep Bass Bluetooth Headset,True Wireless',1000,10,10),"
 						+ "(9,9,'Zebronics blueetooth EarHeadPhone','9hrs playback, call function, adjustable headband',600,10,10),"
 						+ "(10,10,'Voltas AC','1.5 Ton 5 Star Split Inverter White, Copper Condenser',38000,10,10);");
-	    int i =	ps.executeUpdate();
+		ps.executeUpdate();
 
-		createUserTable();		
+		createUserTable();
 	}
-	
+
 //	User purchase history table created
 	public void purchaseHistory() throws ClassNotFoundException, SQLException {
-		
-		con =c.callToShopnow();
 
-		ps = con.prepareStatement(
-						"CREATE TABLE IF NOT EXISTS purchase_history"+
-						"(username varchar(255),"+
-						"product_id int primary key,"+
-						"product_name varchar(255));");
-	    int i =	ps.executeUpdate();
-	     insertHistory();
+		con = c.callToShopnow();
+
+		ps = con.prepareStatement("CREATE TABLE IF NOT EXISTS purchase_history" + "(username varchar(255),"
+				+ "product_id int primary key," + "product_name varchar(255));");
+		ps.executeUpdate();
+		insertHistory();
 	}
+
 //	Insert data into purchase history table
 	public void insertHistory() throws SQLException, ClassNotFoundException {
-		
-		con =c.callToShopnow();
+
+		con = c.callToShopnow();
 
 		ps = con.prepareStatement("INSERT INTO purchase_history (username,product_id,product_name) VALUES(?,?,?);");
-			
-		    ps.setString(1, ur.username);	
-			ps.setInt(2, ShoppingList.product_id);
-			ps.setString(3, ShoppingList.product_name);
-	    int i =	ps.executeUpdate();
-		
-	}
-//Fetching product name for respective product Id
-//	public void fetchingProductName() throws ClassNotFoundException, SQLException {
-//		
-//		con = c.callToShopnow();
-//		ps = con.prepareStatement("SELECT name FROM cart_table WHERE product_id =?;");
-//		ps.setInt(1,ShoppingList.product_id);
-//		rs = ps.executeQuery();
-//		s = rs.getString(1);
-//	}
-	
-//	public static void main(String[] args) {
-//		ProductTable pt = new ProductTable();
-//		try {
-//			pt.purchaseHistory();
-//		} catch (ClassNotFoundException e) {
-//			
-//			e.printStackTrace();
-//		} catch (SQLException e) {
-//			
-//			e.printStackTrace();
-//		}
-//	}
-}
 
+		ps.setString(1, UserRegistration.username);
+		ps.setInt(2, ShoppingList.product_id);
+		ps.setString(3, ShoppingList.product_name);
+		ps.executeUpdate();
+
+	}
+
+}
