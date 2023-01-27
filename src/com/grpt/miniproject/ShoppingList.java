@@ -37,8 +37,8 @@ public class ShoppingList extends ProductDisplay {
 				System.out.println("__________");
 				
 			}
-			//createCartTable();
-			selectProduct();
+			createCartTable();
+			//selectProduct();
 	}
 	
 //	Create cart table in database
@@ -55,7 +55,7 @@ public class ShoppingList extends ProductDisplay {
 				        "PRIMARY KEY(sr_no));");
 	    int i =	ps.executeUpdate(); 
 	    System.out.println("Done....");
-	    //selectProduct();
+	    selectProduct();
 }
 
 //	Select product from the Product list table
@@ -131,12 +131,13 @@ public class ShoppingList extends ProductDisplay {
 		}
 		
 		con = c.callToShopnow();
-		ps = con.prepareStatement("INSERT INTO cart_table (product_id,product_name,price,selected_quantity) VALUES (?,?,?,?)");
-		    
-			ps.setInt(1, productId);
-			ps.setString(2, product_name);
-			ps.setInt(3, price);
-			ps.setInt(4, quantity);
+		ps = con.prepareStatement("INSERT INTO cart_table (username,product_id,product_name,price,selected_quantity) VALUES (?,?,?,?,?)");
+		    String username = UserRegistration.username;
+		    ps.setString(1, username);
+			ps.setInt(2, productId);
+			ps.setString(3, product_name);
+			ps.setInt(4, price);
+			ps.setInt(5, quantity);
 		int i = ps.executeUpdate();
 		System.out.println("Done");
 	}
