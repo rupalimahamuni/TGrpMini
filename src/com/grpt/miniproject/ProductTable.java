@@ -29,7 +29,7 @@ public class ProductTable {
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
 
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","Root");
 			
 
 			ps = con.prepareStatement(
@@ -53,7 +53,7 @@ public class ProductTable {
         try {
 			ConnectionDetails details = new ConnectionDetails();
 			con = details.getConnectionDetails();
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","Root");
 			ps = con.prepareStatement(
 							"CREATE TABLE IF NOT EXISTS productlist"+
 							"(product_id int primary key,"+
@@ -75,7 +75,7 @@ public class ProductTable {
 		try {
 		ConnectionDetails details = new ConnectionDetails();
 		con = details.getConnectionDetails();
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","root");
+		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/shopnow","root","Root");
 		ps = con.prepareStatement(
 						"INSERT IGNORE INTO productlist (product_id,name,description,price,total_quantity,quantity_remaining) VALUES "
 						+ "(1,'Samsung Galaxy F13',	'RAM - 4GB, Camera - 50MP, Battery - 6000mAh, Processor - Exynos850',12000,10,10),"
