@@ -62,9 +62,11 @@ public class UserRegistration {
 		
 		System.out.println("Enter Password ");
 		String str4 = sc1.nextLine();
+		sl.createCartTable();
 		userLogin();
 		userRegistration(str1, str2, str3, str4);
 	}else {
+		sl.createCartTable();
 		userLogin();
 	}
 		}
@@ -79,6 +81,10 @@ public class UserRegistration {
 		
 		System.out.println("Enter Username ");
 		username = sc.nextLine();
+		con = c.callToShopnow();
+		ps = con.prepareStatement("INSERT INTO cart_table (username) VALUES (?)");
+		ps.setString(1, username);
+		ps.execute();
 		
 		System.out.println("Enter Password ");
 		password = sc.nextLine();
@@ -102,14 +108,5 @@ public class UserRegistration {
 			}
 			}
 	    }
-	public static void main(String[] args) {
-		UserRegistration ur = new UserRegistration();
-		try {
-			ur.userLogin();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+	
 }

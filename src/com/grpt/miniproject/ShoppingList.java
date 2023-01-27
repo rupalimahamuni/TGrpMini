@@ -19,6 +19,7 @@ public class ShoppingList extends ProductDisplay {
 	static int quantity;
 	ConnectionDetails c = new ConnectionDetails();
 	
+	
 //	Display Product details on Console from database for user
 	@Override
 	public void getProductDetails() throws ClassNotFoundException, SQLException {
@@ -36,7 +37,8 @@ public class ShoppingList extends ProductDisplay {
 				System.out.println("__________");
 				
 			}
-			createCartTable();
+			//createCartTable();
+			selectProduct();
 	}
 	
 //	Create cart table in database
@@ -44,14 +46,16 @@ public class ShoppingList extends ProductDisplay {
 		con = c.callToShopnow();
 		ps = con.prepareStatement(
 						"CREATE TABLE IF NOT EXISTS cart_table"+
-		                "(username varchar(255),"+
+		                "(sr_no int auto_increment,"+
+		                "username varchar(255),"+
 						"product_id int,"+
 						"product_name varchar(255),"+
 						"price int,"+
-						"selected_quantity int);");
+						"selected_quantity int,"+
+				        "PRIMARY KEY(sr_no));");
 	    int i =	ps.executeUpdate(); 
 	    System.out.println("Done....");
-	    selectProduct();
+	    //selectProduct();
 }
 
 //	Select product from the Product list table
@@ -127,8 +131,8 @@ public class ShoppingList extends ProductDisplay {
 		}
 		
 		con = c.callToShopnow();
-		ps = con.prepareStatement("INSERT INTO cart_table(product_id,product_name,price,selected_quantity) VALUES (?,?,?,?)");
-		
+		ps = con.prepareStatement("INSERT INTO cart_table (product_id,product_name,price,selected_quantity) VALUES (?,?,?,?)");
+		    
 			ps.setInt(1, productId);
 			ps.setString(2, product_name);
 			ps.setInt(3, price);
