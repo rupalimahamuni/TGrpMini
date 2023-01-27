@@ -8,6 +8,7 @@ public class Test {
 		ShoppingList sl = new ShoppingList();
 		try {
 			sl.getProductDetails();
+//			sl.createCartTable();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

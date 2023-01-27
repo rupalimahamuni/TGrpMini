@@ -1,15 +1,10 @@
 package com.grpt.miniproject.user_shopping;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
-
 import com.grpt.miniproject.ConnectionDetails;
 import com.grpt.miniproject.ProductDisplay;
 
@@ -20,10 +15,7 @@ public class ShoppingList extends ProductDisplay {
 	static String str;
 	static int product_id;
 	static int quantity;
-	
-	
 	ConnectionDetails c = new ConnectionDetails();
-	Cart cs = new Cart();
 	
 	@Override
 	public void getProductDetails() throws ClassNotFoundException, SQLException {
@@ -41,10 +33,21 @@ public class ShoppingList extends ProductDisplay {
 				System.out.println("__________");
 				
 			}
-						
-		selectProduct();
+			createCartTable();
 	}
 	
+	public void createCartTable() throws ClassNotFoundException, SQLException {
+		con = c.callToShopnow();
+		ps = con.prepareStatement(
+						"CREATE TABLE IF NOT EXISTS cart_table"+
+						"(product_id int,"+
+						"name varchar(255),"+
+						"price int,"+
+						"selected_quantity int);");
+	    int i =	ps.executeUpdate(); 
+	    System.out.println("Done....");
+	    selectProduct();
+}
 	
 	public void selectProduct() throws ClassNotFoundException, SQLException {
 		Scanner sc = new Scanner(System.in);
@@ -58,35 +61,35 @@ public class ShoppingList extends ProductDisplay {
 		
 		switch (product_id) {
 		case 1:
-			cs.chooseProduct();
+			insert();
 		    break;
 			
 		case 2:
-			cs.chooseProduct();
+			insert();
 			break;
 		case 3:
-			cs.chooseProduct();
+			insert();
 			break;
 		case 4:
-			cs.chooseProduct();
+			insert();
 			break;
 		case 5:
-			cs.chooseProduct();
+			insert();
 			break;
 		case 6:
-			cs.chooseProduct();
+			insert();
 			break;
 		case 7:
-			cs.chooseProduct();
+			insert();
 			break;
 		case 8:
-			cs.chooseProduct();
+			insert();
 			break;
 		case 9:
-			cs.chooseProduct();
+			insert();
 			break;
 		case 10:
-			cs.chooseProduct();
+			insert();
 			break;
 		default:
 			System.out.println("Invalid Input");
@@ -101,5 +104,33 @@ public class ShoppingList extends ProductDisplay {
 		while("YES".equalsIgnoreCase(str));
 		
 	}		
+	int productId;
+	int price;
+	String name; 
+	int remQuantity;
+	public void insert() throws ClassNotFoundException, SQLException {
+		con = c.callToShopnow();
+		ps = con.prepareStatement("SELECT product_id, name, price, quantity_remaining FROM productlist WHERE product_id =?;");
+		ps.setInt(1, product_id);
+		rs = ps.executeQuery();
+		
+		
+		while(rs.next()) {
+		productId = rs.getInt(1);
+		name = rs.getString(2);
+		price = rs.getInt(3);
+		remQuantity = rs.getInt(4);
+		}
+		
+		con = c.callToShopnow();
+		ps = con.prepareStatement("INSERT INTO cart_table(product_id,name,price,selected_quantity) VALUES (?,?,?,?)");
+		
+			ps.setInt(1, productId);
+			ps.setString(2, name);
+			ps.setInt(3, price);
+			ps.setInt(4, quantity);
+		int i = ps.executeUpdate();
+		System.out.println("Done");
+	}
 }
 
