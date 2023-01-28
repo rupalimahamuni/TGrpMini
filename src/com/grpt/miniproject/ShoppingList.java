@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class ShoppingList extends ProductDisplay {
+public class ShoppingList {
 	PreparedStatement ps = null;
 	Connection con = null;
 	ResultSet rs = null;
@@ -25,7 +25,7 @@ public class ShoppingList extends ProductDisplay {
 	int total;
 	
 //	Display Product details on Console from database for user
-	@Override
+	
 	public void getProductDetails() throws ClassNotFoundException, SQLException {
 
 		con = c.callToShopnow();
@@ -42,73 +42,63 @@ public class ShoppingList extends ProductDisplay {
 			System.out.println("__________");
 
 		}
-		createCartTable();
-		// selectProduct();
-	}
-
-//	Create cart table in database
-	public void createCartTable() throws ClassNotFoundException, SQLException {
-		con = c.callToShopnow();
-		ps = con.prepareStatement("CREATE TABLE IF NOT EXISTS cart_table" + "(sr_no int auto_increment,"
-				+ "username varchar(255)," + "product_id int," + "product_name varchar(255)," + "price int,"
-				+ "selected_quantity int," + "PRIMARY KEY(sr_no));");
-		int i = ps.executeUpdate();
-		System.out.println("Done....");
-		selectProduct();
+			selectProduct();
 	}
 
 //	Select product from the Product list table
 	public void selectProduct() throws ClassNotFoundException, SQLException {
 		Scanner sc = new Scanner(System.in);
+		CartTable cart = new CartTable();
+		cart.createCartTable();
+		PurchaseHistoryTable pht = new PurchaseHistoryTable();
+		pht.purchaseHistory();
 
 		do {
-			ProductTable pt = new ProductTable();
-			pt.purchaseHistory();
 			System.out.println("Please Enter Product Id of product which you want to buy...");
 			int i = sc.nextInt();
 			System.out.println("How many quantity do you want to buy?");
 			selected_quantity = sc.nextInt();
 			product_id = i;
-
+			
 			switch (product_id) {
 			case 1:
-				insert();
+				cart.insert();
 				updatequatity();
 				break;
 			case 2:
-				insert();
+				cart.insert();
 				updatequatity();
 				break;
 			case 3:
-				insert();
+				cart.insert();
 				updatequatity();
 				break;
 			case 4:
-				insert();
+				cart.insert();
 				updatequatity();
 				break;
 			case 5:
-				insert();
+				cart.insert();
 				updatequatity();
 				break;
 			case 6:
-				insert();
+				cart.insert();
 				updatequatity();
 				break;
 			case 7:
-				insert();
+				cart.insert();
 				updatequatity();
 				break;
 			case 8:
-				insert();
+				cart.insert();
 				updatequatity();
 				break;
 			case 9:
-				insert();
+				cart.insert();
 				updatequatity();
 				break;
 			case 10:
-				insert();
+				cart.insert();
 				updatequatity();
 				break;
 			default:
@@ -122,42 +112,12 @@ public class ShoppingList extends ProductDisplay {
 		}
 
 		while ("YES".equalsIgnoreCase(str));
-		
-		bill();
+		pht.insertHistory();
+		Bill b = new Bill();
+		b.bill();
 	}
 
-//	Insert  selected product in cart table
-	public void insert() throws ClassNotFoundException, SQLException {
-		con = c.callToShopnow();
-		ps = con.prepareStatement(
-				"SELECT product_id, product_name, price, quantity_remaining FROM productlist WHERE product_id =?;");
-		ps.setInt(1, product_id);
-		rs = ps.executeQuery();
-
-		while (rs.next()) {
-			productId = rs.getInt(1);
-			product_name = rs.getString(2);
-			price = rs.getInt(3);
-			remQuantity = rs.getInt(4);
-		}
-
-		con = c.callToShopnow();
-		ps = con.prepareStatement(
-				"INSERT INTO cart_table (username,product_id,product_name,price,selected_quantity) VALUES (?,?,?,?,?)");
-		String username = UserRegistration.username;
-		ps.setString(1, username);
-		ps.setInt(2, productId);
-		ps.setString(3, product_name);
-		ps.setInt(4, price);
-		ps.setInt(5, selected_quantity);
-		int i = ps.executeUpdate();
-		System.out.println("Done");
-		ProductTable pt = new ProductTable();
-		
-		pt.insertHistory();
-	}
-
-	
+//	Update remaining quantity into Product list table
 	public void updatequatity() throws ClassNotFoundException, SQLException {
 		
 		shopNowCon = c.callToShopnow();
@@ -177,60 +137,5 @@ public class ShoppingList extends ProductDisplay {
 		
 		ps.setInt(2, product_id);
 		ps.execute();
-		ProductTable pt = new ProductTable();
-		pt.insertHistory();
-	}
-	
-	
-	public void bill() throws ClassNotFoundException, SQLException {
-		
-		con = c.callToShopnow();
-		ps = con.prepareStatement("SELECT product_id, product_name, selected_quantity, price FROM cart_table;");
-		rs = ps.executeQuery();
-		
-		while(rs.next()) {
-			cartProductId = rs.getInt(1);
-			productName = rs.getString(2);
-			cartSelectedQuantity = rs.getInt(3);
-			cartPrice = rs.getInt(4);
-			multiply= cartSelectedQuantity*cartPrice;
-			total=total+multiply;
-
-			System.out.println("Your bill is : ");
-			System.out.println("                _________________________________________________________________________________________________ ");
-			System.out.println("               |                                            Shop Now                                             |");
-			System.out.println("               |_________________________________________________________________________________________________|");
-			System.out.println("               |       Product Id     |         Product Name         |      Quantity  | Price/Qty  |  Total Price|");
-			System.out.println("               | "+cartProductId+"    |   "+productName+"            |  "+cartSelectedQuantity+"|"+cartPrice+"|"+multiply+"|");
-		}
-		
-		
-//	    System.out.println("               |______________________|______________________________|________________|____________|_____________|");
-//	    System.out.println("               | "+cartProductId+"    |   "+productName+"            |  "+cartSelectedQuantity+"|"+cartPrice+"|"+multiply+"|");
-	    System.out.println("               |_________________________________________________________________________________________________|");
-	    System.out.println("               |  Total									"+(total));
-//	    
-//	    getTotalAmount();
-//	    
-//	    System.out.println("               |  Customer Instructions: 		"+instruction);
-//	    System.out.println("               |_________________________________________________________________________________________________|");
-	    System.out.println("               |                                       FSSAI - 21518181000281                             ");
-	    System.out.println("               |_________________________________________________________________________________________________|");
-	    System.out.println("               |                                      Thank You! Now order online from our                          ");
-	    System.out.println("               |                                         website www.rollsmania.com                                    ");
-	    System.out.println("               |_________________________________________________________________________________________________|");
-		
-	    
-	    //pt.insertHistory();
-	    truncateCart();
-	    
-	}
-  public void truncateCart() throws ClassNotFoundException, SQLException {
-		
-		con = c.callToShopnow();
-
-		ps = con.prepareStatement("TRUNCATE TABLE cart_table;");
-		rs = ps.executeQuery();
-		
 	}
 }

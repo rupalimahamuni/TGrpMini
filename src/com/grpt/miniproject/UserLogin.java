@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class UserRegistration {
+public class UserLogin {
 
 	PreparedStatement ps = null;
 	Connection con = null;
@@ -14,22 +14,7 @@ public class UserRegistration {
 	ConnectionDetails c = new ConnectionDetails();
 	ShoppingList sl = new ShoppingList();
 
-	public void userRegistration(String firstName, String lastName, String userName, String password)
-			throws ClassNotFoundException, SQLException {
-		username = userName;
-		con = c.callToShopnow();
-		ps = con.prepareStatement("INSERT INTO userlist (firstname, lastname, username, password) VALUES (?,?,?,?)");
-
-		ps.setString(1, firstName);
-		ps.setString(2, lastName);
-		ps.setString(3, userName);
-		ps.setString(4, password);
-
-		int i = ps.executeUpdate();
-		System.out.println("Record updated...");
-		sl.getProductDetails();
-
-	}
+	
 
 	public void userSignUp() throws ClassNotFoundException, SQLException {
 
@@ -37,8 +22,8 @@ public class UserRegistration {
 		System.out.println("Are you Admin or Customer?");
 		String string = sc.nextLine();
 		if ("Admin".equalsIgnoreCase(string)) {
-			AdminData adminData = new AdminData();
-			adminData.verifyAdmin();
+			AdminLogin al = new AdminLogin();
+			al.verifyAdmin();
 		} else if ("Customer".equalsIgnoreCase(string)) {
 			System.out.println("Are you New Customer ? Please write YES or NO ");
 			String str = sc.nextLine();
@@ -56,11 +41,12 @@ public class UserRegistration {
 
 				System.out.println("Enter Password ");
 				String str4 = sc1.nextLine();
-				// sl.createCartTable();
+				UserTable ut = new UserTable();
+				ut.userRegistration(str1, str2, str3, str4);
 				userLogin();
-				userRegistration(str1, str2, str3, str4);
+				
 			} else {
-				// sl.createCartTable();
+
 				userLogin();
 			}
 		} else {
@@ -82,7 +68,6 @@ public class UserRegistration {
 		ps = con.prepareStatement("Select password from userlist where username  = ?");
 		ps.setString(1, username);
 		ResultSet rs = ps.executeQuery();
-		System.out.println(username);
 
 		while (rs.next()) {
 			String dbPassword = rs.getString("password");

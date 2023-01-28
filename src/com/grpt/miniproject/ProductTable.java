@@ -11,21 +11,6 @@ public class ProductTable {
 	ResultSet rs = null;
 	String s;
 	ConnectionDetails c = new ConnectionDetails();
-	
-
-//	Created user table
-	public void createUserTable() throws SQLException, ClassNotFoundException {
-
-		con = c.callToShopnow();
-
-		ps = con.prepareStatement("CREATE TABLE IF NOT EXISTS userlist" + "(sr_no int auto_increment,"
-				+ "firstname varchar(255)," + "lastname varchar(255)," + "username varchar(255),"
-				+ "password varchar(255)," + "PRIMARY KEY(sr_no));");
-		ps.executeUpdate();
-
-		UserRegistration userRegistration = new UserRegistration();
-		userRegistration.userSignUp();
-	}
 
 //	Created Product table
 	public void createProductTable() throws ClassNotFoundException, SQLException {
@@ -58,32 +43,7 @@ public class ProductTable {
 						+ "(9,9,'Zebronics blueetooth EarHeadPhone','9hrs playback, call function, adjustable headband',600,10,10),"
 						+ "(10,10,'Voltas AC','1.5 Ton 5 Star Split Inverter White, Copper Condenser',38000,10,10);");
 		ps.executeUpdate();
-
-		createUserTable();
+		UserTable ut = new UserTable();
+		ut.createUserTable();
 	}
-
-//	User purchase history table created
-	public void purchaseHistory() throws ClassNotFoundException, SQLException {
-
-		con = c.callToShopnow();
-
-		ps = con.prepareStatement("CREATE TABLE IF NOT EXISTS purchase_history" + "(sr_no int auto_increment,"
-				+ "username varchar(255)," + "product_id int," + "product_name varchar(255)," + "price int,"
-				+ "selected_quantity int);");
-		ps.executeUpdate();
-//		insertHistory();
-	}
-
-//	Insert data into purchase history table
-	public void insertHistory() throws SQLException, ClassNotFoundException {
-
-		con = c.callToShopnow();
-
-		ps = con.prepareStatement(
-				"INSERT INTO purchase_history (username, product_id, product_name, price, selected_quantity) SELECT username, product_id, product_name, price, selected_quantity FROM cart_table GROUP BY sr_no");
-		ps.executeUpdate();
-//		truncateCart();
-	}
-	
-	
 }
