@@ -67,8 +67,9 @@ public class ProductTable {
 
 		con = c.callToShopnow();
 
-		ps = con.prepareStatement("CREATE TABLE IF NOT EXISTS purchase_history" + "(username varchar(255),"
-				+ "product_id int primary key," + "product_name varchar(255));");
+		ps = con.prepareStatement("CREATE TABLE IF NOT EXISTS purchase_history" + "(sr_no int auto_increment,"
+				+ "username varchar(255)," + "product_id int," + "product_name varchar(255)," + "price int,"
+				+ "selected_quantity int);");
 		ps.executeUpdate();
 		insertHistory();
 	}
@@ -78,13 +79,18 @@ public class ProductTable {
 
 		con = c.callToShopnow();
 
-		ps = con.prepareStatement("INSERT INTO purchase_history (username,product_id,product_name) VALUES(?,?,?);");
-
-		ps.setString(1, UserRegistration.username);
-		ps.setInt(2, ShoppingList.product_id);
-		ps.setString(3, ShoppingList.product_name);
+		ps = con.prepareStatement(
+				"INSERT INTO purchase_history (username, product_id, product_name, price, selected_quantity) SELECT username, product_id, product_name, price, selected_quantity FROM cart_table GROUP BY sr_no");
 		ps.executeUpdate();
-
+		truncateCart();
 	}
+	
+	public void truncateCart() throws ClassNotFoundException, SQLException {
+		
+		con = c.callToShopnow();
 
+		ps = con.prepareStatement("TRUNCATE TABLE cart_table;");
+		rs = ps.executeQuery();
+		
+	}
 }
