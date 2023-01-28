@@ -71,7 +71,7 @@ public class ProductTable {
 				+ "username varchar(255)," + "product_id int," + "product_name varchar(255)," + "price int,"
 				+ "selected_quantity int);");
 		ps.executeUpdate();
-		insertHistory();
+//		insertHistory();
 	}
 
 //	Insert data into purchase history table
@@ -82,15 +82,8 @@ public class ProductTable {
 		ps = con.prepareStatement(
 				"INSERT INTO purchase_history (username, product_id, product_name, price, selected_quantity) SELECT username, product_id, product_name, price, selected_quantity FROM cart_table GROUP BY sr_no");
 		ps.executeUpdate();
-		truncateCart();
+//		truncateCart();
 	}
 	
-	public void truncateCart() throws ClassNotFoundException, SQLException {
-		
-		con = c.callToShopnow();
-
-		ps = con.prepareStatement("TRUNCATE TABLE cart_table;");
-		rs = ps.executeQuery();
-		
-	}
+	
 }

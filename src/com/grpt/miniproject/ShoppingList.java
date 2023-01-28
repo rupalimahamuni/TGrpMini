@@ -22,6 +22,7 @@ public class ShoppingList extends ProductDisplay {
 	Connection shopNowCon = null;
 	int cartProductId,cartSelectedQuantity,cartPrice,multiply;
 	String productName;
+	int total;
 	
 //	Display Product details on Console from database for user
 	@Override
@@ -61,6 +62,8 @@ public class ShoppingList extends ProductDisplay {
 		Scanner sc = new Scanner(System.in);
 
 		do {
+			ProductTable pt = new ProductTable();
+			pt.purchaseHistory();
 			System.out.println("Please Enter Product Id of product which you want to buy...");
 			int i = sc.nextInt();
 			System.out.println("How many quantity do you want to buy?");
@@ -119,6 +122,7 @@ public class ShoppingList extends ProductDisplay {
 		}
 
 		while ("YES".equalsIgnoreCase(str));
+		
 		bill();
 	}
 
@@ -149,6 +153,7 @@ public class ShoppingList extends ProductDisplay {
 		int i = ps.executeUpdate();
 		System.out.println("Done");
 		ProductTable pt = new ProductTable();
+		
 		pt.insertHistory();
 	}
 
@@ -172,6 +177,8 @@ public class ShoppingList extends ProductDisplay {
 		
 		ps.setInt(2, product_id);
 		ps.execute();
+		ProductTable pt = new ProductTable();
+		pt.insertHistory();
 	}
 	
 	
@@ -187,19 +194,21 @@ public class ShoppingList extends ProductDisplay {
 			cartSelectedQuantity = rs.getInt(3);
 			cartPrice = rs.getInt(4);
 			multiply= cartSelectedQuantity*cartPrice;
+			total=total+multiply;
+
+			System.out.println("Your bill is : ");
+			System.out.println("                _________________________________________________________________________________________________ ");
+			System.out.println("               |                                            Shop Now                                             |");
+			System.out.println("               |_________________________________________________________________________________________________|");
+			System.out.println("               |       Product Id     |         Product Name         |      Quantity  | Price/Qty  |  Total Price|");
 			System.out.println("               | "+cartProductId+"    |   "+productName+"            |  "+cartSelectedQuantity+"|"+cartPrice+"|"+multiply+"|");
 		}
 		
 		
-		System.out.println("Your bill is : ");
-		System.out.println("                _________________________________________________________________________________________________ ");
-		System.out.println("               |                                            Shop Now                                             |");
-		System.out.println("               |_________________________________________________________________________________________________|");
-		System.out.println("               |       Product Id     |         Product Name         |      Quantity  | Price/Qty  |  Total Price|");
 //	    System.out.println("               |______________________|______________________________|________________|____________|_____________|");
 //	    System.out.println("               | "+cartProductId+"    |   "+productName+"            |  "+cartSelectedQuantity+"|"+cartPrice+"|"+multiply+"|");
 	    System.out.println("               |_________________________________________________________________________________________________|");
-//	    System.out.println("               |  Total									"+(total+coupon));
+	    System.out.println("               |  Total									"+(total));
 //	    
 //	    getTotalAmount();
 //	    
@@ -213,5 +222,15 @@ public class ShoppingList extends ProductDisplay {
 		
 	    
 	    //pt.insertHistory();
+	    truncateCart();
+	    
+	}
+  public void truncateCart() throws ClassNotFoundException, SQLException {
+		
+		con = c.callToShopnow();
+
+		ps = con.prepareStatement("TRUNCATE TABLE cart_table;");
+		rs = ps.executeQuery();
+		
 	}
 }
