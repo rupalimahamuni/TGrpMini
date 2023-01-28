@@ -25,13 +25,7 @@ public class AdminLogin {
 		return adminPass;
 	}
 
-	@Override
-	public String toString() {
-		return "AdminLogin [adminId=" + adminId + ", adminPass=" + adminPass + "]";
-	}
-	
-	
-
+//	Verification of admin username and password
 	public void verifyAdmin() throws ClassNotFoundException, SQLException {
 
 		String getid;
@@ -61,17 +55,21 @@ public class AdminLogin {
 			} else if (num == 2) {
 				getProductDetails();
 			} else if (num == 3) {
-				PurchaseHistoryTable pht = new PurchaseHistoryTable();
-				pht.insertHistory();
+				getPurchaseHistory();
 			} else {
 				System.out.println("Invalid Input");
+				System.out.println("________________________________________________");
+				verifyAdmin();
 			}
 
 		} else {
-			System.out.println("Invalid");
+			System.out.println("Invalid credentials...");
+			System.out.println("________________________________________________");
+			verifyAdmin();
 		}
 	}
 
+//  call to userlist table
 	public void userList() throws SQLException, ClassNotFoundException {
 
 		con = c.callToShopnow();
@@ -79,29 +77,55 @@ public class AdminLogin {
 		ResultSet rs = ps.executeQuery();
 
 		while (rs.next()) {
+			
+			System.out.println("__________________________________________________________________________");
 			System.out.println("firstname : " + rs.getString(1));
 			System.out.println("lastname : " + rs.getString(2));
 			System.out.println("username : " + rs.getString(3));
-			System.out.println("__________");
+			System.out.println("__________________________________________________________________________");
 		}
 	}
 	
+//	call to productlist table
 	public void getProductDetails() throws ClassNotFoundException, SQLException {
 
 		ConnectionDetails details = new ConnectionDetails();
 		con = details.callToShopnow();
 		ps = con.prepareStatement("SELECT * FROM productlist");
-
 		rs = ps.executeQuery();
 
 		while (rs.next()) {
-			System.out.println("ProductId : " + rs.getInt(1));
-			System.out.println("Name : " + rs.getString(2));
-			System.out.println("Description : " + rs.getString(3));
-			System.out.println("Price : " + rs.getInt(4));
-			System.out.println("Total Quantity : " + rs.getInt(5));
-			System.out.println("Quantity Remaining : " + rs.getInt(6));
-			System.out.println("__________");
+			
+			System.out.println("__________________________________________________________________________");
+			System.out.println("Sr_no : "+ rs.getInt(1) );
+			System.out.println("Product_Id : " + rs.getInt(2));
+			System.out.println("Product_name : " + rs.getString(3));
+			System.out.println("Description : " + rs.getString(4));
+			System.out.println("Price : " + rs.getInt(5));
+			System.out.println("Total Quantity : " + rs.getInt(6));
+			System.out.println("Quantity Remaining : " + rs.getInt(7));
+			System.out.println("__________________________________________________________________________");
+		}
+	}
+	
+//	call to purchase history table
+	public void getPurchaseHistory() throws ClassNotFoundException, SQLException {
+		
+		ConnectionDetails details = new ConnectionDetails();
+		con = details.callToShopnow();
+		ps = con.prepareStatement("SELECT * FROM purchase_history");
+		rs = ps.executeQuery();
+
+		while (rs.next()) {
+			
+			System.out.println("__________________________________________________________________________");
+			System.out.println("Sr_no : "+ rs.getInt(1) );
+			System.out.println("Username : " + rs.getString(2));
+			System.out.println("Product_id : " + rs.getInt(3));
+			System.out.println("Product_name : " + rs.getString(4));
+			System.out.println("Price : " + rs.getInt(5));
+			System.out.println("Selected_Quantity : " + rs.getInt(6));
+			System.out.println("___________________________________________________________________________");
 		}
 	}
 }

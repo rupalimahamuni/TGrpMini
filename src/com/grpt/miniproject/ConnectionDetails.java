@@ -11,6 +11,7 @@ public class ConnectionDetails {
 	Connection sysCon = null;
 	Connection shopNowCon = null;
 
+//	Created connection
 	public Connection getConnectionDetails() throws ClassNotFoundException, SQLException {
 		if (null == sysCon) {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -19,6 +20,7 @@ public class ConnectionDetails {
 		return sysCon;
 	}
 
+//	Created schema
 	public void createSchema() throws ClassNotFoundException, SQLException {
 		Connection con = getConnectionDetails();
 		ps = con.prepareStatement("CREATE schema IF NOT EXISTS shopnow;");
@@ -28,6 +30,7 @@ public class ConnectionDetails {
 
 	}
 
+//	Call to shopnow schema
 	public Connection callToShopnow() throws ClassNotFoundException, SQLException {
 		if (null == shopNowCon) {
 			Class.forName("com.mysql.cj.jdbc.Driver");

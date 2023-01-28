@@ -23,12 +23,12 @@ public class UserTable {
 				+ "password varchar(255)," + "PRIMARY KEY(sr_no));");
 		ps.executeUpdate();
 
-		UserLogin userRegistration = new UserLogin();
-		userRegistration.userSignUp();
+		UserLogin ul = new UserLogin();
+		ul.userSignUp();
 	}
 	
 
-	// User details inserted
+//	User details inserted
 	public void userRegistration(String firstName, String lastName, String userName, String password)
 			throws ClassNotFoundException, SQLException {
 		username = userName;

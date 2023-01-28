@@ -20,12 +20,11 @@ public class ShoppingList {
 	int rquantity;
 	ConnectionDetails c = new ConnectionDetails();
 	Connection shopNowCon = null;
-	int cartProductId,cartSelectedQuantity,cartPrice,multiply;
+	int cartProductId, cartSelectedQuantity, cartPrice, multiply;
 	String productName;
 	int total;
-	
+
 //	Display Product details on Console from database for user
-	
 	public void getProductDetails() throws ClassNotFoundException, SQLException {
 
 		con = c.callToShopnow();
@@ -34,15 +33,16 @@ public class ShoppingList {
 		rs = ps.executeQuery();
 
 		while (rs.next()) {
+			System.out.println("_______________________________________________________________________");
 			System.out.println("ProductId : " + rs.getInt(1));
 			System.out.println("Name : " + rs.getString(2));
 			System.out.println("Description : " + rs.getString(3));
 			System.out.println("Price : " + rs.getInt(4));
 			System.out.println("Quantity Remaining : " + rs.getInt(5));
-			System.out.println("__________");
+			System.out.println("_______________________________________________________________________");
 
 		}
-			selectProduct();
+		selectProduct();
 	}
 
 //	Select product from the Product list table
@@ -54,12 +54,14 @@ public class ShoppingList {
 		pht.purchaseHistory();
 
 		do {
+			System.out.println("______________________________________________________________________");
 			System.out.println("Please Enter Product Id of product which you want to buy...");
 			int i = sc.nextInt();
 			System.out.println("How many quantity do you want to buy?");
+
 			selected_quantity = sc.nextInt();
 			product_id = i;
-			
+
 			switch (product_id) {
 			case 1:
 				cart.insert();
@@ -102,16 +104,18 @@ public class ShoppingList {
 				updatequatity();
 				break;
 			default:
-				System.out.println("Invalid Input");
+				System.out.println("__________________________________________________________________");
+				System.out.println("__________________INVALID PRODUCT ID______________________________");
+				System.out.println("Please enter valid product id");
+				System.out.println("__________________________________________________________________");
+				getProductDetails();
 			}
-
+			System.out.println("______________________________________________________________________");
 			System.out.println("Do you want to add another item to cart ?");
 			System.out.println("Please enter YES or No");
 			Scanner sc1 = new Scanner(System.in);
 			str = sc1.nextLine();
-		}
-
-		while ("YES".equalsIgnoreCase(str));
+		} while ("YES".equalsIgnoreCase(str));
 		pht.insertHistory();
 		Bill b = new Bill();
 		b.bill();
@@ -119,22 +123,22 @@ public class ShoppingList {
 
 //	Update remaining quantity into Product list table
 	public void updatequatity() throws ClassNotFoundException, SQLException {
-		
+
 		shopNowCon = c.callToShopnow();
 		ps = shopNowCon.prepareStatement("SELECT quantity_remaining FROM productlist WHERE product_id = ?");
 		ps.setInt(1, product_id);
 		ps.execute();
-		
+
 		rs = ps.executeQuery();
-		while(rs.next()) {
-		 rquantity= rs.getInt(1);
+		while (rs.next()) {
+			rquantity = rs.getInt(1);
 		}
-		
-		rquantity = rquantity- selected_quantity;
-		
+
+		rquantity = rquantity - selected_quantity;
+
 		ps = shopNowCon.prepareStatement("UPDATE productlist SET quantity_remaining = ? WHERE  product_id = ?");
 		ps.setInt(1, rquantity);
-		
+
 		ps.setInt(2, product_id);
 		ps.execute();
 	}

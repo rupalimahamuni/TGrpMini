@@ -13,57 +13,40 @@ public class Bill {
 	ConnectionDetails c = new ConnectionDetails();
 	int  multiply;
 	int total;
-
+	
+//	Display final bill	
 	public void bill() throws ClassNotFoundException, SQLException {
 
 		con = c.callToShopnow();
 		ps = con.prepareStatement("SELECT product_id, product_name, selected_quantity, price FROM cart_table;");
 		rs = ps.executeQuery();
 		CartTable ct = new CartTable();
-		ShoppingList sl = new ShoppingList();
+		
+		System.out.println("                _________________________________________________________________________________________________ ");
+		System.out.println("               |                                            Shop Now                                             |");
+		System.out.println("               |_________________________________________________________________________________________________|");
+		System.out.println("               |       Product Id     |         Product Name    |      Quantity  | Price     |  Total Price      |");
+		System.out.println("               |_________________________________________________________________________________________________|");
 		
 		while (rs.next()) {
-			ct.productId = rs.getInt(1);
-			ct.product_name = rs.getString(2);
-			sl.selected_quantity = rs.getInt(3);
+			CartTable.productId = rs.getInt(1);
+			CartTable.product_name = rs.getString(2);
+			ShoppingList.selected_quantity = rs.getInt(3);
 			ct.price = rs.getInt(4);
-			multiply = sl.selected_quantity * ct.price;
+			multiply = ShoppingList.selected_quantity * ct.price; 
 			total = total + multiply;
 
-			System.out.println("Your bill is : ");
-			System.out.println(
-					"                _________________________________________________________________________________________________ ");
-			System.out.println(
-					"               |                                            Shop Now                                             |");
-			System.out.println(
-					"               |_________________________________________________________________________________________________|");
-			System.out.println(
-					"               |       Product Id     |         Product Name         |      Quantity  | Price/Qty  |  Total Price|");
-			System.out.println("    | " + ct.productId + "    |   " + ct.product_name + "  |  "+sl.selected_quantity + "|" + ct.price + "|" + multiply + "|");
+			
+			System.out.println("               |     "+CartTable.productId+    "                "+CartTable.product_name+  "                 "+ShoppingList.selected_quantity+  "           "+ct.price+   "         "+ multiply   );
 		}
-
-//	    System.out.println("               |______________________|______________________________|________________|____________|_____________|");
-//	    System.out.println("               | "+cartProductId+"    |   "+productName+"            |  "+cartSelectedQuantity+"|"+cartPrice+"|"+multiply+"|");
-		System.out.println(
-				"               |_________________________________________________________________________________________________|");
-		System.out.println("               |  Total									" + (total));
-//	    
-//	    getTotalAmount();
-//	    
-//	    System.out.println("               |  Customer Instructions: 		"+instruction);
-//	    System.out.println("               |_________________________________________________________________________________________________|");
-		System.out.println(
-				"               |                                       FSSAI - 21518181000281                             ");
-		System.out.println(
-				"               |_________________________________________________________________________________________________|");
-		System.out.println(
-				"               |                                      Thank You! Now order online from our                          ");
-		System.out.println(
-				"               |                                         website www.rollsmania.com                                    ");
-		System.out.println(
-				"               |_________________________________________________________________________________________________|");
-
 		
+		System.out.println("               |_________________________________________________________________________________________________|");
+		System.out.println("               |    Total									  " + (total)+"          |");
+		System.out.println("               |_________________________________________________________________________________________________|");
+		System.out.println("               |                                      Thank You! Order online from our                            ");
+		System.out.println("               |                                         website www.shopnow.com                                  ");
+		System.out.println("               |_________________________________________________________________________________________________|");
+
 		ct.truncateCart();
 	}
 }
