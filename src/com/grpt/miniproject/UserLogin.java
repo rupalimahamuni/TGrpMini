@@ -89,7 +89,8 @@ public class UserLogin {
 				System.out.println("_________________________PRODUCT DETAILS _______________________________");
 				sl.getProductDetails();
 			} else {
-				System.out.println("Invalid Password....");
+				
+				System.out.println("Invalid Credentials....");
 				userLogin();
 			}
 		}
